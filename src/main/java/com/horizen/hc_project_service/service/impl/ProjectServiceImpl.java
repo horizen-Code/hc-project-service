@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.horizen.hc_project_service.dto.CreateProjectRequest;
 import com.horizen.hc_project_service.model.Project;
 import com.horizen.hc_project_service.model.Visibility;
 import com.horizen.hc_project_service.repository.ProjectRepository;
@@ -22,6 +23,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     public ProjectServiceImpl(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
+    }
+
+    @Override
+    public Project createProject(CreateProjectRequest request) {
+        logger.info("Creating a new project with name: {}", request.getName());
+
+        Project project = new Project();
+        project.setName(request.getName());
+        project.setAuthorId(request.getAuthorId());
+        project.setTeamId(request.getTeamId());
+        project.setVisibility(request.getVisibility());
+
+        // createdAt и updatedAt будут установлены автоматически через @PrePersist
+        Project savedProject = projectRepository.save(project);
+        logger.info("Created project with ID: {}", savedProject.getId());
+        return savedProject;
     }
 
     @Override
