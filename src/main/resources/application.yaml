@@ -1,3 +1,18 @@
 spring:
-  application:
-    name: hc-project-service
+  datasource:
+    url: jdbc:postgresql://postgres-db:5432/hc_project_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: create # или validate для продакшена
+
+    show-sql: true
+
+server:
+  port: 8081
